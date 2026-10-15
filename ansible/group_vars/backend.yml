@@ -1,0 +1,8 @@
+backend_repo_url: "https://github.com/pravinmishraaws/book-review-app.git"
+backend_app_port: 3001
+db_host: "bookreview-db.mysql.database.azure.com"
+db_user: "mysqladmin"
+db_password: "{{ lookup('ansible.builtin.env', 'DB_PASSWORD', default=undef()) }}"
+db_name: "book_review_db"
+jwt_secret: "{{ lookup('ansible.builtin.env', 'JWT_SECRET', default=undef()) }}"
+allowed_origins: "http://135.119.137.20:3000"

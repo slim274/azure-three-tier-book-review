@@ -1,0 +1,22 @@
+flowchart TB
+    Internet[(Internet users)] --> PIP[Public IP / web-public-lb<br/>TCP 80]
+    subgraph Azure["Azure VNet: bookreview-vnet · screenshot: 10.0.0.0/20 · UK West"]
+        subgraph Web["Web tier · web-nsg"]
+            W1[web-vm-1<br/>Next.js / Nginx<br/>web-subnet-1: 10.0.0.0/23]
+            W2[web-vm-2<br/>Next.js / Nginx<br/>web-subnet-2: 10.0.2.0/23]
+        end
+        ILB[internal-lb<br/>10.0.4.100:3001]
+        subgraph App["App tier · app-nsg"]
+            A1[app-vm-1<br/>Node.js :3001<br/>app-subnet-1: 10.0.4.0/23]
+            A2[app-vm-2<br/>Node.js :3001<br/>app-subnet-2: 10.0.6.0/23]
+        end
+        subgraph DB["Database tier · db-nsg"]
+            R[(Azure Database for MySQL<br/>Flexible Server bookdb<br/>VNet-integrated · private access<br/>HA: enabled, same-zone)]
+            D1[db-subnet-1: 10.0.8.0/23]
+            D2[db-subnet-2: 10.0.10.0/23]
+        end
+        PIP --> W1 & W2
+        W1 & W2 -->|Port 3001| ILB
+        ILB --> A1 & A2
+        A1 & A2 -->|MySQL TCP 3306| R
+    end

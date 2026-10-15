@@ -1,0 +1,22 @@
+# Environment variables and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+dist/
+build/
+coverage/
+
+# System files
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
